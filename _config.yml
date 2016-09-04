@@ -1,0 +1,3 @@
+name: pocketbroadcasts place
+markdown: kramdown
+permalink: /blog/:year/:month/:day/:title
