@@ -36,6 +36,35 @@ the username \'root\' and password \'most9981\'.
 # The firmware update
 
 # Disassembling and decompiling the binary
+{% highlight cpp linenos %}
+
+      if ( stReadSubHeader.unDataSize == -1 )
+      {
+        if ( !(stReadSubHeader.unFlag & v2) && stReadSubHeader.unFlag )
+        {
+          printf("=> Skip %s\n", pName);
+        }
+        else
+        {
+          printf("=> Make directory %s\n");
+          if ( mkdir((const char *)pName, 0x1FDu) && *_errno_location() != 17 )
+          {
+            printf("UnpackagingFile - can't make directory (%s)\n", pName);
+            return -2;
+          }
+        }
+      }
+      else if ( stReadSubHeader.unFlag & v2 || !stReadSubHeader.unFlag )
+      {
+        printf("=> Make file %s\n", pName);
+        unlink((const char *)pName);
+        nWriteFile = open((const char *)pName, 577);
+        if ( nWriteFile == -1 )
+        {
+          printf("UnpackagingFile - File open error (%s)\n", pName);
+          return -3;
+        }
+{% endhighlight %}
 
 # Browsing the firmware image
 
