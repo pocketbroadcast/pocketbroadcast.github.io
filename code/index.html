@@ -1,0 +1,50 @@
+---
+layout: default
+title: Be part of pocketbroadcast's world!
+custom_js:
+- jquery.min
+---
+
+<head>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<h1>Code</h1>
+<p style="clear: both; padding-bottom: 1em;">
+Currently <span id="repoCnt">a lot</span> of my repositories are hosted on <a href="https://github.com/pocketbroadcast/">github</a>!<br>
+Have fun, using the code and if you like don't hesitate to contribute!
+</p>
+
+<div id="repoList">get a coffee!</div>
+
+<script>
+var url = "https://api.github.com/users/pocketbroadcast/repos";
+
+$.getJSON(url, function(result){
+        $("#repoCnt").text(result.length);
+        $("#repoList").text("");
+
+        var $list = $("<ul>").addClass("repo");
+        $.each(result, function(i, field){
+            var $listItem = $("<li>").addClass("repo");
+        
+            var $descText = field.description;
+            if(!$descText || $descText.length === 0)
+                $descText = "no description available";
+                
+            var $lang = $("<div>").addClass("lang").text(field.language);
+            var $link = $("<a>").attr("href", field.html_url).text(field.name);
+            var $title = $("<div>").addClass("title").append($link); //.text(field.name);
+            var $desc = $("<div>").addClass("desc").text($descText);
+            
+            $listItem.append($lang).append($title).append($desc);
+            
+            $list.append($listItem);
+        });
+        
+        $list.appendTo("#repoList");
+    });
+    
+    
+</script>
+
