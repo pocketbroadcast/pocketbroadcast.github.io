@@ -18,7 +18,7 @@ The following has been tested with HomBot VR64703 and firmware version 13865 and
 
 # TL;DR
 
-Buy a compatible WLAN Dongle (e.g. [Edimax EW-7811UN 150Mbps Wireless Nano USB Adapter][edimax]) plug it in the USB connector on the bot and
+Buy a compatible wlan dongle (e.g. [Edimax EW-7811UN 150Mbps Wireless Nano USB Adapter][edimax]) plug it in the USB connector on the bot and
 configure your wlan router as access point using the SSID `RK_HIT` and no encryption. (Use this method only as a starting point, unencrypted
 networks bare a tremendous security risk)
 
@@ -91,7 +91,7 @@ like the one below, we can reconstruct what happens during an update.
 {% endhighlight %}
 
 
-#### DatExtractor was born!
+#### Extracting the firmware image!
 
 By this, it was not hard to write a tool extracting the `.dat` file contained in the firmware update.
 The source code of the **DatExtractor** can be found on [github][datextractorrepo].
@@ -100,14 +100,63 @@ TODO: get DatExtractor a command line interface and add a screenshot of it\'s us
 
 #### Browsing the firmware image
 
-describe `.rclocal`
-describe how we achieved the utilization of the update script
-describe how we found out `SSID: RK_HIT`
+After the firmware image has been extracted we can observe the following in `~\extracted_update_13865\usr\etc\rc.local`:
 
-#### Bring WLAN to the Bot
+{% highlight bash linenos %}
+	#!/bin/sh
+	...
 
-describe which wlan chips are supported by the firmware
-refer to TL;DR
+	WIFI_ESSID="RK_HIT"
+	WIFI_IP=""
+	WPS_MODE="WPS_OFF"
+	OLD_ESSID=$WIFI_ESSID
+	SOFTAP_MODE=`cat /usr/rcfg/Function.xml | grep 'SoftAP_Eable' | busybox awk '{print $3}' | busybox cut -d\" -f 2`
+
+	...
+
+	if [ -f /usr/etc/wifi.cfg ]
+	then
+		WIFI_ESSID=`cat /usr/rcfg/wifi.cfg | grep 'ESSID' | busybox awk '{print $2}'`
+		WIFI_IP=`cat /usr/rcfg/wifi.cfg | grep 'IP' | busybox awk '{print $2}'`	
+		WPS_MODE=`cat /usr/rcfg/wifi.cfg | grep 'WPS' | busybox awk '{print $2}'`	
+		echo "Found wifi.cfg Try connection using preset.."
+	fi
+	
+	...
+
+	echo "Connect to" $WPS_MODE $WIFI_ESSID $WIFI_IP
+
+	wificonn.sh "$WPS_MODE" "$WIFI_ESSID" "$WIFI_IP" "$SOFTAP_MODE"
+	WIFIDONGLE_ATTACHED=$?
+
+	if [ "$WIFIDONGLE_ATTACHED" -eq 0 ]
+	then
+		#WIFI DongleÀÌ ÀÖ´Â °æ¿ì dropbear ½ÇÇà
+		echo "run dropbear"
+		dropbear
+	fi
+	
+	...
+{% endhighlight %}
+
+By default a wlan connection with a SSID `RK_HIT` is established if no `wifi.cfg` is provided. The setup for the wlan is made by the script `wificonn.sh` and triggers
+the execution of the SSH Server `dropbear` on success. 
+
+The script `wificonn.sh` supports the following wlan chipsets:
+
+- rt3070sta 
+- rt3370sta
+- rt5370sta
+- 8192cu
+
+Since [this][edimax] wlan dongle is based on the [8192cu chipset][chipsetlist], I ordered it for my HomBot. The basic setup of 
+an open wlan can be found in **TL;DR** above. A more appropriate connection with respect to security should be considered and can 
+be configured either via SSH or via an update script.
+
+Other hacks we found in rc.local were the retreival of map information by connecting an usb stick with an empty folder `blackbox` and
+the execution of scripts by connecting an usb stick with an script `update.sh` containing the line `#IS_HIT_UPDATE_SCRIPT=1`.
+
+Scripts I used during this project can be found in my [github repository][datextractorrepo].
 
 
 [roboterforumthread]: http://www.roboter-forum.com/showthread.php?10009-LG-Hombot-3-0-WLAN-Steuerung-per-Weboberfl%E4che
@@ -118,3 +167,4 @@ refer to TL;DR
 [hombotopensource]: http://opensource.lge.com/osSch/list?types=NAME&search=VR64703
 [hexrayida]: https://www.hex-rays.com/products/ida/
 [hexraydecompile]: https://www.hex-rays.com/products/decompiler/manual/interactive.shtml
+[chipsetlist]: https://wiki.ubuntuusers.de/WLAN/Karten/
