@@ -34,11 +34,31 @@ This part is thought to be a complement of **TL;DR** where I elaborate the achie
 
 #### The firmware update
 
-describe what can be found on the image and what axf is
+The official [firmware update][hombotfirmware] in version `13865` as well as in version `16552` both include three files to be copied on an empty `FAT32` formatted
+USB Stick. After plugging the USB Stick to the HomBot and starting up a firmware update is performed as the voice sequence says.
+
+Taking a closer look at the files contained in the update we can find a script `update.sh` executing `update.axf update.dat`. Since `.axf` is the **object file format** containing both the object code as well as the debug information this is a good starting point!
+
+Running strings with `update.axf` further approves this:
+{% highlight plain %}
+~\Update_13865>strings update.axf
+
+...
+GetFlagInfoFromVisionboard
+ShakeStreamData
+UnpackagingFileAfterMainHeaderRead
+DoFirmwareUpdate
+main
+$d.realdata
+...
+{% endhighlight %}
+
+Let\'s have a closer look at `DoFirmwareUpdate`\.\.\.
 
 #### Disassembling and decompiling the binary
 
-describe the process of disassembling and decompiling the axf in ida
+After disassembling the `update.axf` with [ida][hexrayida] and generating the [pseudocode][hexraydecompile] (showing the decompiled `C` code)
+like the one below, we can reconstruct what happens during an update.
 
 {% highlight cpp linenos %}
 
@@ -70,6 +90,7 @@ describe the process of disassembling and decompiling the axf in ida
         }
 {% endhighlight %}
 
+
 #### DatExtractor was born!
 
 By this, it was not hard to write a tool extracting the `.dat` file contained in the firmware update.
@@ -94,3 +115,6 @@ refer to TL;DR
 [hombotfirmware]: http://www.lg.com/at/service/software-firmware?keyword=&superCateId=CT20086025&categoryId=CT20086032&modelNum=VR64703LVMB
 [puttydownload]: http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html
 [datextractorrepo]: https://github.com/pocketbroadcast/hombot-tools
+[hombotopensource]: http://opensource.lge.com/osSch/list?types=NAME&search=VR64703
+[hexrayida]: https://www.hex-rays.com/products/ida/
+[hexraydecompile]: https://www.hex-rays.com/products/decompiler/manual/interactive.shtml
