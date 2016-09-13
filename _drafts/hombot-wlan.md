@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SSH the LG HomBot (VR64703)"
-date: 2016-09-04
+date: 2016-09-13
 ---
 
 # Introduction:
