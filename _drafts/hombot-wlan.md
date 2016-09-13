@@ -94,9 +94,17 @@ like the one below, we can reconstruct what happens during an update.
 #### Extracting the firmware image!
 
 By this, it was not hard to write a tool extracting the `.dat` file contained in the firmware update.
-The source code of the **DatExtractor** can be found on [github][datextractorrepo].
+The source code of the **DatExtractor** can be found on [github][datextractorrepo] and the latest
+release including the `x86` and `x64` binaries for windows can be found [here](https://github.com/pocketbroadcast/hombot-tools/releases).
 
-TODO: get DatExtractor a command line interface and add a screenshot of it\'s usage.
+> _Note: DatExtractor is currently only available for Windows. Feel free to contribute, making DatExtractor usable for a broader audience!_
+
+To extract the files contained in the firmware image into a new folder \'`extracted_update_13865`\' use
+
+{% highlight bash %}
+Update_13865>DatExtractor_v0.1_x86.exe update.dat extracted_update_13865
+{% endhighlight %}
+
 
 #### Browsing the firmware image
 
@@ -153,7 +161,7 @@ Since [this][edimax] wlan dongle is based on the [8192cu chipset][chipsetlist], 
 an open wlan can be found in **TL;DR** above. A more appropriate connection with respect to security should be considered and can 
 be configured either via SSH or via an update script.
 
-Other hacks we found in rc.local were the retreival of map information by connecting an usb stick with an empty folder `blackbox` and
+Other hacks I found in rc.local were the retreival of map information by connecting an usb stick with an empty folder `blackbox` and
 the execution of scripts by connecting an usb stick with an script `update.sh` containing the line `#IS_HIT_UPDATE_SCRIPT=1`.
 
 Scripts I used during this project can be found in my [github repository][datextractorrepo].
