@@ -4,7 +4,7 @@ title: "SSH the LG HomBot (VR64703)"
 date: 2016-09-13
 ---
 
-Enabling WLAN would offer us dozens of possibilities to extend the functionality and better configure the HomBot, so let\'s get this done!
+Enabling WLAN would offer us dozens of possibilities to extend the functionality of the HomBot and to make it easier to tweak configuration, so let\'s get this done!
 
 Searching for a way to enable WLAN on the LG HomBot lead me to 
 [roboter-forum.com][roboterforumthread]. Since, the described method is to update the HomBot with
