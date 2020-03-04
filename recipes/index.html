@@ -1,0 +1,14 @@
+---
+layout: default
+title: pocketbroadcast's recipes
+---
+<h1>{{ page.title }}</h1>
+
+<p>List of some short recipes on how to set things up. <br />
+I don't claim they are best practice or complete!</p>
+
+<ul class="recipes">
+	{% for recipe in site.categories["recipes"] %}
+		<li><span>{{ recipe.date | date_to_string }}</span> &raquo; <a href="{{ recipe.url }}" title="{{ recipe.title }}">{{ recipe.title }}</a></li>
+	{% endfor %}    
+</ul>
