@@ -3,11 +3,13 @@ layout: post
 title: "How to Install Prometeus and Node-Exporter (on Ubuntu 18)"
 date: 2020-02-27
 categories: [recipes]
+excerpt_separator: <!--more-->
 ---
 
 Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud.
 This recipe describes how to install prometheus and node exporter (a famous metrics collector/exporter for hardware and OS metrics exposed by *NIX kernels)
 on Ubuntu systems with systemd.
+<!--more-->
 
 # Create a user
 
