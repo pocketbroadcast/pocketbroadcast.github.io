@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Building a Simple sudo (Demo) Clone - the Magic of setuid"
+title: "Building a simple sudo (demo) clone - the magic of setuid"
 date: 2020-12-02
 categories: [blog]
 excerpt_separator: <!--more-->
