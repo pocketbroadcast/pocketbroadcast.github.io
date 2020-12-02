@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Build a simple sudo (demo) clone - the magic of setuid"
+title: "Building a Simple sudo (Demo) Clone - the Magic of setuid"
 date: 2020-12-02
 categories: [blog]
 excerpt_separator: <!--more-->
@@ -108,6 +108,7 @@ and also ```/bin/sleep``` is now executed as ```root```
 $ ps -au | grep sleep
 root      15149  0.0  0.0   7828   828 pts/1    S+   19:06   0:00 /bin/sleep 10
 ```
+
 
 [sudoman]: https://linux.die.net/man/8/sudo
 [sudointernals]: https://unix.stackexchange.com/questions/80344/how-do-the-internals-of-sudo-work
