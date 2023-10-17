@@ -11,14 +11,14 @@ This recipe describes how to install prometheus and node exporter (a famous metr
 on Ubuntu systems with systemd.
 <!--more-->
 
-# Create a user
+## Create a user
 
 ```
 useradd -m -s /bin/bash prometheus
 passwd prometheus
 ```
 
-# Install Prometheus
+## Install Prometheus
 
 ```
 su - prometheus
@@ -35,7 +35,7 @@ mv node_exporter-0.18.1.linux-amd64 node_exporter
 ```
 
 
-## Configure prometheus to scrape the node_exporter metrics
+### Configure prometheus to scrape the node_exporter metrics
 
 ```
 vim prometheus/prometheus.yml
@@ -55,7 +55,7 @@ in section ```scrape_config```
 exit
 ```
 
-# Configure prometheus and node_exporter to startup via systemd
+## Configure prometheus and node_exporter to startup via systemd
 
 ```
 vim /etc/systemd/system/prometheus.service
@@ -102,7 +102,7 @@ ExecStart=/home/prometheus/node_exporter/node_exporter
 WantedBy=default.target
 ```
 
-## Start them and enable auto start on system startup:
+### Start them and enable auto start on system startup:
 ```
 systemctl daemon-reload
 
@@ -113,7 +113,7 @@ systemctl start node_exporter
 systemctl enable node_exporter
 ```
 
-## Tests systemd config:
+### Tests systemd config:
 ```
 systemctl status prometheus
 systemctl status node_exporter
@@ -121,7 +121,7 @@ systemctl status node_exporter
 
 Browse to ```localhost:9090``` to see the servers metrics.
 
-# References:
+## References:
 
 - source [https://www.howtoforge.com/tutorial/how-to-install-prometheus-and-node-exporter-on-centos-8/][howtoforge]
 - Node-Exporter Dashboard: [https://grafana.com/grafana/dashboards/11074][grafana-dashboard]

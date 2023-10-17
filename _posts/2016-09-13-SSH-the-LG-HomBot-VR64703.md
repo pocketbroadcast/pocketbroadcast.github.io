@@ -17,7 +17,7 @@ The following has been tested with HomBot VR64703 and firmware version 13865 and
 
 
 
-# TL;DR
+## TL;DR
 
 Buy a compatible wlan dongle (e.g. [Edimax EW-7811UN 150Mbps Wireless Nano USB Adapter][edimax]) plug it in the USB connector on the bot and
 configure your wlan router as access point using the SSID `RK_HIT` and no encryption. (Use this method only as a starting point, unencrypted
@@ -29,11 +29,11 @@ the username `root` and password `most9981`.
 
 ![SSH Connection to HomBot]({{ site.url }}/assets/hombot-wlan/sshtobot.png)
 
-# namespace detail {
+## namespace detail {
 
 This part is thought to be a complement of **TL;DR** where I elaborate the achieved knowledge in more detail. 
 
-#### The firmware update
+### The firmware update
 
 The official [firmware update][hombotfirmware] in version `13865` as well as in version `16552` both include three files to be copied on an empty `FAT32` formatted
 USB Stick. After plugging the USB Stick to the HomBot and starting up a firmware update is performed as the voice sequence says.
@@ -56,7 +56,7 @@ $d.realdata
 
 Let\'s have a closer look at `DoFirmwareUpdate`\.\.\.
 
-#### Disassembling and decompiling the binary
+### Disassembling and decompiling the binary
 
 After disassembling the `update.axf` with [ida][hexrayida] and generating the [pseudocode][hexraydecompile] (showing the decompiled `C` code)
 like the one below, we can reconstruct what happens during an update.
@@ -92,7 +92,7 @@ like the one below, we can reconstruct what happens during an update.
 {% endhighlight %}
 
 
-#### Extracting the firmware image!
+### Extracting the firmware image!
 
 By this, it was not hard to write a tool extracting the `.dat` file contained in the firmware update.
 The source code of the **DatExtractor** can be found on [github][datextractorrepo] and the latest
@@ -107,7 +107,7 @@ Update_13865>DatExtractor_v0.1_x86.exe update.dat extracted_update_13865
 {% endhighlight %}
 
 
-#### Browsing the firmware image
+### Browsing the firmware image
 
 After the firmware image has been extracted we can observe the following in `~\extracted_update_13865\usr\etc\rc.local`:
 
