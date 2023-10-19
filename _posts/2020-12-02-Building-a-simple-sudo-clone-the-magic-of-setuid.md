@@ -8,6 +8,8 @@ excerpt_separator: <!--more-->
 
 This post shows how we can build a simple sudo demo clone. Our version has really limited features, no security concept and should of course not be used anywhere at all!
 
+<!--more-->
+
 ## Theory
 
 [man sudo][sudoman] states:
